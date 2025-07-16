@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Donna, With Love</title>
+  <style>
+    :root {
+      --primary-color: #ff6b9d;
+      --secondary-color: #ffb6c1;
+      --dark-color: #1e1e2f;
+      --light-color: #fff5f7;
+      --accent-color: #ff4081;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark-color);
+      color: var(--light-color);
+      background-image: url('c:/Users/ASUS/Downloads/cat.webp');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(30, 30, 47, 0.5); /* Changed opacity from 0.7 to 0.5 for more transparency */
+      z-index: -1;
+    }
+
+    .top-title {
+      text-align: center;
+      padding: 2rem 0;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .top-title h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: var(--primary-color);
+      text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+      margin-bottom: 0.5rem;
+    }
+
+    .login-container {
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideUp 1s ease-out 0.5s forwards;
+    }
+
+    .login-container h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--secondary-color);
+    }
+
+    input {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 50px;
+      border: none;
+      margin: 10px 0;
+      width: 80%;
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.3);
+      transform: scale(1.02);
+    }
+
+    button {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      color: white;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(255, 107, 157, 0.6);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .error {
+      color: #ff4d4d;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      min-height: 1.2rem;
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: var(--secondary-color);
+      font-size: 24px;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      z-index: 9999;
+      pointer-events: none;
+      text-shadow: 0 0 5px rgba(255, 182, 193, 0.8);
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: var(--primary-color);
+      animation: float 4s ease-in infinite;
+      opacity: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Hidden content that appears after login */
+    #content {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .bookshelf {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .book {
+      background: linear-gradient(135deg, rgba(255, 182, 193, 0.9), rgba(255, 192, 203, 0.7));
+      color: #333;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+    }
+
+    .book::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .book:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .book:hover::before {
+      transform: translateX(100%);
+    }
+
+    .poem-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2rem;
+      text-align: center;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.8s ease-out 0.3s forwards;
+    }
+
+    .poem-container h2 {
+      font-family: 'Dancing Script', cursive;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .poem-container p {
+      margin-bottom: 1rem;
+    }
+
+    .back-button {
+      display: block;
+      margin: 2rem auto;
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+      font-weight: 600;
+    }
+
+    .back-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(255, 107, 157, 0.6);
+    }
+
+    .cat {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 100px;
+      z-index: 10;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .cat:hover {
+      transform: scale(1.1);
+    }
+
+    /* New styles for add poem functionality */
+    .add-poem-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: none;
+    }
+
+    .add-poem-container h2 {
+      font-family: 'Dancing Script', cursive;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .add-poem-container textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 15px;
+      border-radius: 15px;
+      border: none;
+      margin: 15px 0;
+      background: rgba(255, 255, 255, 0.9);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .delete-button {
+      background: linear-gradient(45deg, #ff4d4d, #cc0000);
+      box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
+    }
+
+    .delete-button:hover {
+      box-shadow: 0 7px 20px rgba(255, 77, 77, 0.6);
+    }
+
+    .add-new-book {
+      background: linear-gradient(45deg, #4CAF50, #2E7D32);
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .add-new-book:hover {
+      box-shadow: 0 7px 20px rgba(76, 175, 80, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .bookshelf {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        padding: 20px;
+      }
+      
+      .top-title h1 {
+        font-size: 2rem;
+      }
+      
+      .login-container {
+        width: 90%;
+        padding: 1.5rem;
+      }
+      
+      .poem-container {
+        width: 90%;
+        padding: 1.5rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .button-group button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-title">
+    <h1>To Donna, With Love 💌</h1>
+  </div>
+
+  <div class="login-container" id="login">
+    <h2>Welcome, My Love</h2>
+    <input type="password" id="password" placeholder="Enter our special word" />
+    <button onclick="login()">Enter Our World</button>
+    <p id="error" class="error"></p>
+  </div>
+
+  <div id="content">
+    <!-- Removed "Our Love Library" title as requested -->
+    
+    <div class="bookshelf" id="bookshelf">
+      <div class="book" onclick="showPoem('poem1')">Our First Date</div>
+      <div class="book" onclick="showPoem('poem2')">Your Beautiful Smile</div>
+      <div class="book" onclick="showPoem('poem3')">When We Argue</div>
+      <div class="book" onclick="showPoem('poem4')">Your Kind Heart</div>
+      <div class="book" onclick="showPoem('poem5')">Future Dreams</div>
+      <div class="book" onclick="showPoem('poem6')">Morning Cuddles</div>
+      <div class="book" onclick="showPoem('poem7')">Your Laughter</div>
+      <div class="book" onclick="showPoem('poem8')">My Promise</div>
+      <div class="book" onclick="showPoem('poem9')">I Fell InLove</div>
+      <div class="book add-new-book" onclick="showAddPoemForm()">+ Add New Poem</div>
+    </div>
+    
+    <div class="poem-container" id="poem1" style="display: none;">
+      <h2>Our First Date</h2>
+      <p>Donna</p>
+      <p>I remember the day we first met,</p>
+      <p>Nervous smiles we can't forget.</p>
+      <p>Your eyes sparkled in the light,</p>
+      <p>And my heart took flight that night.</p>
+      <p>Every moment since has been so true,</p>
+      <p>Falling more in love with you.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <div class="poem-container" id="poem2" style="display: none;">
+      <h2>Your Beautiful Smile</h2>
+      <p>Donna</p>
+      <p>Your smile brightens up my day,</p>
+      <p>Chases all my blues away.</p>
+      <p>Like sunshine breaking through the gray,</p>
+      <p>It guides me when I lose my way.</p>
+      <p>I'd cross oceans, walk for miles,</p>
+      <p>Just to see your beautiful smiles.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <div class="poem-container" id="poem3" style="display: none;">
+      <h2>When We Argue</h2>
+      <p>Donna</p>
+      <p>Even when we disagree,</p>
+      <p>My love for you won't ever flee.</p>
+      <p>Like waves that crash then kiss the shore,</p>
+      <p>We'll find our way to love once more.</p>
+      <p>For every storm must have its end,</p>
+      <p>And in your arms I'll always mend.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <div class="poem-container" id="poem4" style="display: none;">
+      <h2>Your Kind Heart</h2>
+      <p>Donna</p>
+      <p>The way you care, so pure, so true,</p>
+      <p>Is just one reason I love you.</p>
+      <p>You see the good in everyone,</p>
+      <p>A gift so rare beneath the sun.</p>
+      <p>Your gentle soul, your loving art,</p>
+      <p>Forever captivates my heart.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <div class="poem-container" id="poem5" style="display: none;">
+      <h2>Future Dreams</h2>
+      <p>Donna</p>
+      <p>I dream of days still yet to be,</p>
+      <p>With you right there beside me.</p>
+      <p>Mornings shared and nights so sweet,</p>
+      <p>Life's adventures at our feet.</p>
+      <p>Whatever comes, through thick and thin,</p>
+      <p>I'll choose you again and again.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <div class="poem-container" id="poem6" style="display: none;">
+      <h2>Morning Cuddles</h2>
+      <p>Donna</p>
+      <p>Waking up beside you, my dear,</p>
+      <p>Is what I hold most precious near.</p>
+      <p>Your sleepy smile, your warm embrace,</p>
+      <p>My favorite time, my sacred space.</p>
+      <p>No matter what the day may bring,</p>
+      <p>With you my heart will always sing.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <div class="poem-container" id="poem7" style="display: none;">
+      <h2>Your Laughter</h2>
+      <p>Donna</p>
+      <p>The sound of your sweet laughter,</p>
+      <p>Is all the joy I'm after.</p>
+      <p>Like wind chimes in the summer breeze,</p>
+      <p>It puts my worried mind at ease.</p>
+      <p>I'll spend my life to hear that sound,</p>
+      <p>Where happiness and love are found.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <div class="poem-container" id="poem8" style="display: none;">
+      <h2>My Promise</h2>
+      <p>Donna</p>
+      <p>Through all of life's uncertain ways,</p>
+      <p>I'll love you all my days.</p>
+      <p>When storms may come and skies turn gray,</p>
+      <p>I'll be your light, your hope, your stay.</p>
+      <p>This promise from my heart is true,</p>
+      <p>Forever I'll belong to you.</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+
+    <div class="poem-container" id="poem9" style="display: none;">
+      <h2>I Fell Inlove</h2>
+      <p>Donna</p>
+      <p>I spend my whole life imagining someone to stay with me.</p>
+      <p>I always look at my window trying to mesmerize the possibility.</p>
+      <p>And suddenly God bless me and says "I'll give her to you, just wait patiently." </p>
+      <p>That motivates me so I ask "I can wait my Lord." and smile dearly.</p>
+      <p>The first time I saw your face, my eyes lingers on you. </p>
+      <p> I fell in love immediately and I don't have any clue. </p>
+      <p>Is this even true? This girl is so adorable I wanna be her boo.</p>
+      <p>As I touch your hands, that's the time I said "Lord, thank you."</p>
+      <p>Joy</p>
+      <div class="button-group">
+        <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+      </div>
+    </div>
+    
+    <!-- Add Poem Form -->
+    <div class="add-poem-container" id="addPoemForm">
+      <h2>Create Your Own Poem</h2>
+      <input type="text" id="poemTitle" placeholder="Poem Title" class="poem-title-input">
+      <textarea id="newPoemText" placeholder="Write your beautiful poem here..."></textarea>
+      <div class="button-group">
+        <button class="back-button" onclick="hideAddPoemForm()">Cancel</button>
+        <button class="add-new-book" onclick="savePoem()">Save Poem</button>
+      </div>
+    </div>
+    
+    <img src="https://cdn.pixabay.com/photo/2017/07/25/01/22/cat-2536662_960_720.png" alt="Cute Cat" class="cat" onclick="meow()">
+  </div>
+
+  <div class="floating-hearts" id="hearts"></div>
+
+  <script>
+    // Create snowflakes
+    const snowflakeSymbols = ["❄", "✻", "✼", "❅", "❆", "💖", "🌸", "💗"];
+    for (let i = 0; i < 50; i++) {
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+      snowflake.style.left = Math.random() * 100 + "vw";
+      snowflake.style.animationDuration = 5 + Math.random() * 10 + "s";
+      snowflake.style.fontSize = 14 + Math.random() * 20 + "px";
+      snowflake.style.opacity = 0.5 + Math.random() * 0.5;
+      snowflake.innerText = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+      document.body.appendChild(snowflake);
+    }
+
+    // Login function
+    function login() {
+      const pass = document.getElementById("password").value;
+      if (pass.toLowerCase() === "iloveyou") {
+        document.getElementById("login").style.opacity = 0;
+        document.getElementById("login").style.pointerEvents = "none";
+        
+        // Create floating hearts animation
+        createHearts();
+        
+        setTimeout(() => {
+          document.getElementById("login").style.display = "none";
+          document.getElementById("content").style.display = "block";
+          setTimeout(() => {
+            document.getElementById("content").style.opacity = 1;
+          }, 100);
+        }, 1000);
+      } else {
+        document.getElementById("error").innerText = "That's not our special word! Try again.";
+        document.getElementById("password").style.animation = "shake 0.5s";
+        setTimeout(() => {
+          document.getElementById("password").style.animation = "";
+        }, 500);
+      }
+    }
+
+    // Create floating hearts
+    function createHearts() {
+      const heartsContainer = document.getElementById("hearts");
+      heartsContainer.innerHTML = '';
+      
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+          heart.innerHTML = "❤";
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.fontSize = (20 + Math.random() * 30) + "px";
+          heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+          heart.style.animationDelay = Math.random() * 2 + "s";
+          heartsContainer.appendChild(heart);
+        }, i * 100);
+      }
+    }
+
+    // Show poem function
+    function showPoem(id) {
+      document.querySelectorAll('.poem-container').forEach(poem => {
+        poem.style.display = 'none';
+      });
+      document.getElementById(id).style.display = 'block';
+      document.querySelector('.bookshelf').style.display = 'none';
+      
+      // Add delete button for custom poems (those with IDs starting with 'custom')
+      if (id.startsWith('custom')) {
+        const buttonGroup = document.querySelector(`#${id} .button-group`);
+        // Remove any existing delete button first
+        const existingDeleteBtn = document.querySelector(`#${id} .delete-button`);
+        if (existingDeleteBtn) existingDeleteBtn.remove();
+        
+        // Add new delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-button';
+        deleteBtn.textContent = 'Delete Poem';
+        deleteBtn.onclick = function() { deletePoem(id); };
+        buttonGroup.prepend(deleteBtn);
+      }
+      
+      // Create small heart animation
+      createMiniHearts();
+    }
+
+    // Hide poem function
+    function hidePoem() {
+      document.querySelectorAll('.poem-container').forEach(poem => {
+        poem.style.display = 'none';
+      });
+      document.querySelector('.bookshelf').style.display = 'grid';
+      document.getElementById('addPoemForm').style.display = 'none';
+    }
+
+    // Create mini hearts animation
+    function createMiniHearts() {
+      const container = document.querySelector('.poem-container[style*="display: block"]');
+      
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+          heart.innerHTML = "❤";
+          heart.style.left = (20 + Math.random() * 60) + "%";
+          heart.style.bottom = "0";
+          heart.style.fontSize = (10 + Math.random() * 20) + "px";
+          heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+          container.appendChild(heart);
+          
+          setTimeout(() => {
+            heart.remove();
+          }, 3000);
+        }, i * 150);
+      }
+    }
+
+    // Show add poem form
+    function showAddPoemForm() {
+      document.querySelector('.bookshelf').style.display = 'none';
+      document.getElementById('addPoemForm').style.display = 'block';
+      document.getElementById('poemTitle').value = '';
+      document.getElementById('newPoemText').value = '';
+    }
+
+    // Hide add poem form
+    function hideAddPoemForm() {
+      document.getElementById('addPoemForm').style.display = 'none';
+      document.querySelector('.bookshelf').style.display = 'grid';
+    }
+
+    // Save new poem
+    function savePoem() {
+      const title = document.getElementById('poemTitle').value.trim();
+      const text = document.getElementById('newPoemText').value.trim();
+      
+      if (!title || !text) {
+        alert('Please enter both a title and poem text');
+        return;
+      }
+      
+      // Create a unique ID for the new poem
+      const poemId = 'custom' + Date.now();
+      
+      // Create the poem container
+      const poemContainer = document.createElement('div');
+      poemContainer.className = 'poem-container';
+      poemContainer.id = poemId;
+      poemContainer.style.display = 'none';
+      
+      // Add the poem content
+      poemContainer.innerHTML = `
+        <h2>${title}</h2>
+        ${text.split('\n').map(line => `<p>${line}</p>`).join('')}
+        <div class="button-group">
+          <button class="delete-button" onclick="deletePoem('${poemId}')">Delete Poem</button>
+          <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
+        </div>
+      `;
+      
+      // Add the poem to the content div
+      document.getElementById('content').appendChild(poemContainer);
+      
+      // Create a new book for the poem
+      const bookshelf = document.getElementById('bookshelf');
+      const addNewBtn = document.querySelector('.add-new-book');
+      const newBook = document.createElement('div');
+      newBook.className = 'book';
+      newBook.textContent = title;
+      newBook.setAttribute('data-poem-id', poemId);
+      newBook.onclick = function() { showPoem(poemId); };
+      bookshelf.insertBefore(newBook, addNewBtn);
+      
+      // Hide the form and show the bookshelf
+      hideAddPoemForm();
+      
+      // Show the new poem
+      showPoem(poemId);
+    }
+
+    // Delete poem
+    function deletePoem(id) {
+      if (confirm('Are you sure you want to delete this poem?')) {
+        // Remove the poem container
+        const poemElement = document.getElementById(id);
+        if (poemElement) poemElement.remove();
+        
+        // Remove the book from the bookshelf using the data attribute
+        const bookToRemove = document.querySelector(`.book[data-poem-id="${id}"]`);
+        if (bookToRemove) bookToRemove.remove();
+        
+        // Go back to the bookshelf
+        hidePoem();
+      }
+    }
+
+    // Cat meow function
+    function meow() {
+      const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-cat-meow-119.mp3');
+      audio.play();
+      
+      // Create fish animation
+      const cat = document.querySelector('.cat');
+      const fish = document.createElement("div");
+      fish.innerHTML = "🐟";
+      fish.style.position = "fixed";
+      fish.style.fontSize = "30px";
+      fish.style.left = (cat.offsetLeft + 100) + "px";
+      fish.style.bottom = (cat.offsetTop + 30) + "px";
+      fish.style.zIndex = "11";
+      fish.style.animation = "swim 2s linear forwards";
+      document.body.appendChild(fish);
+      
+      // Keyframes for fish animation
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes swim {
+          0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateX(100px) rotate(360deg); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      setTimeout(() => {
+        fish.remove();
+        style.remove();
+      }, 2000);
+    }
+
+    // Allow pressing Enter to login
+    document.getElementById("password").addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        login();
+      }
+    });
+  </script>
+</body>
+</html>
