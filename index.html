@@ -40,7 +40,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(30, 30, 47, 0.5); /* Changed opacity from 0.7 to 0.5 for more transparency */
+      background: rgba(30, 30, 47, 0.5);
       z-index: -1;
     }
 
@@ -133,7 +133,7 @@
       position: fixed;
       top: -10px;
       color: var(--secondary-color);
-      font-size: 24px;
+      font-size: 18px;
       animation-name: fall;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
@@ -181,9 +181,9 @@
 
     .heart {
       position: absolute;
-      font-size: 20px;
+      font-size: 16px;
       color: var(--primary-color);
-      animation: float 4s ease-in infinite;
+      animation: float 6s ease-in infinite;
       opacity: 0;
     }
 
@@ -204,7 +204,6 @@
       }
     }
 
-    /* Hidden content that appears after login */
     #content {
       display: none;
       opacity: 0;
@@ -323,7 +322,6 @@
       transform: scale(1.1);
     }
 
-    /* New styles for add poem functionality */
     .add-poem-container {
       max-width: 700px;
       margin: 2rem auto;
@@ -425,8 +423,6 @@
   </div>
 
   <div id="content">
-    <!-- Removed "Our Love Library" title as requested -->
-    
     <div class="bookshelf" id="bookshelf">
       <div class="book" onclick="showPoem('poem1')">Our First Date</div>
       <div class="book" onclick="showPoem('poem2')">Your Beautiful Smile</div>
@@ -577,7 +573,6 @@
       </div>
     </div>
     
-    <!-- Add Poem Form -->
     <div class="add-poem-container" id="addPoemForm">
       <h2>Create Your Own Poem</h2>
       <input type="text" id="poemTitle" placeholder="Poem Title" class="poem-title-input">
@@ -594,15 +589,15 @@
   <div class="floating-hearts" id="hearts"></div>
 
   <script>
-    // Create snowflakes
-    const snowflakeSymbols = ["❄", "✻", "✼", "❅", "❆", "💖", "🌸", "💗"];
-    for (let i = 0; i < 50; i++) {
+    // Create snowflakes (reduced from 50 to 20)
+    const snowflakeSymbols = ["❄", "✻", "❤", "🌸"];
+    for (let i = 0; i < 20; i++) {
       const snowflake = document.createElement("div");
       snowflake.classList.add("snowflake");
       snowflake.style.left = Math.random() * 100 + "vw";
-      snowflake.style.animationDuration = 5 + Math.random() * 10 + "s";
-      snowflake.style.fontSize = 14 + Math.random() * 20 + "px";
-      snowflake.style.opacity = 0.5 + Math.random() * 0.5;
+      snowflake.style.animationDuration = 8 + Math.random() * 12 + "s";
+      snowflake.style.fontSize = 14 + Math.random() * 10 + "px";
+      snowflake.style.opacity = 0.6 + Math.random() * 0.3;
       snowflake.innerText = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
       document.body.appendChild(snowflake);
     }
@@ -614,7 +609,7 @@
         document.getElementById("login").style.opacity = 0;
         document.getElementById("login").style.pointerEvents = "none";
         
-        // Create floating hearts animation
+        // Create floating hearts animation (reduced from 30 to 15)
         createHearts();
         
         setTimeout(() => {
@@ -633,22 +628,22 @@
       }
     }
 
-    // Create floating hearts
+    // Create floating hearts (reduced quantity)
     function createHearts() {
       const heartsContainer = document.getElementById("hearts");
       heartsContainer.innerHTML = '';
       
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 15; i++) {
         setTimeout(() => {
           const heart = document.createElement("div");
           heart.classList.add("heart");
           heart.innerHTML = "❤";
           heart.style.left = Math.random() * 100 + "vw";
-          heart.style.fontSize = (20 + Math.random() * 30) + "px";
-          heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+          heart.style.fontSize = (16 + Math.random() * 20) + "px";
+          heart.style.animationDuration = (4 + Math.random() * 5) + "s";
           heart.style.animationDelay = Math.random() * 2 + "s";
           heartsContainer.appendChild(heart);
-        }, i * 100);
+        }, i * 200);
       }
     }
 
@@ -660,14 +655,11 @@
       document.getElementById(id).style.display = 'block';
       document.querySelector('.bookshelf').style.display = 'none';
       
-      // Add delete button for custom poems (those with IDs starting with 'custom')
       if (id.startsWith('custom')) {
         const buttonGroup = document.querySelector(`#${id} .button-group`);
-        // Remove any existing delete button first
         const existingDeleteBtn = document.querySelector(`#${id} .delete-button`);
         if (existingDeleteBtn) existingDeleteBtn.remove();
         
-        // Add new delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-button';
         deleteBtn.textContent = 'Delete Poem';
@@ -675,7 +667,7 @@
         buttonGroup.prepend(deleteBtn);
       }
       
-      // Create small heart animation
+      // Create small heart animation (reduced from 20 to 10)
       createMiniHearts();
     }
 
@@ -688,25 +680,25 @@
       document.getElementById('addPoemForm').style.display = 'none';
     }
 
-    // Create mini hearts animation
+    // Create mini hearts animation (reduced quantity)
     function createMiniHearts() {
       const container = document.querySelector('.poem-container[style*="display: block"]');
       
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 10; i++) {
         setTimeout(() => {
           const heart = document.createElement("div");
           heart.classList.add("heart");
           heart.innerHTML = "❤";
           heart.style.left = (20 + Math.random() * 60) + "%";
           heart.style.bottom = "0";
-          heart.style.fontSize = (10 + Math.random() * 20) + "px";
+          heart.style.fontSize = (10 + Math.random() * 15) + "px";
           heart.style.animationDuration = (2 + Math.random() * 3) + "s";
           container.appendChild(heart);
           
           setTimeout(() => {
             heart.remove();
           }, 3000);
-        }, i * 150);
+        }, i * 300);
       }
     }
 
@@ -734,16 +726,13 @@
         return;
       }
       
-      // Create a unique ID for the new poem
       const poemId = 'custom' + Date.now();
       
-      // Create the poem container
       const poemContainer = document.createElement('div');
       poemContainer.className = 'poem-container';
       poemContainer.id = poemId;
       poemContainer.style.display = 'none';
       
-      // Add the poem content
       poemContainer.innerHTML = `
         <h2>${title}</h2>
         ${text.split('\n').map(line => `<p>${line}</p>`).join('')}
@@ -753,10 +742,8 @@
         </div>
       `;
       
-      // Add the poem to the content div
       document.getElementById('content').appendChild(poemContainer);
       
-      // Create a new book for the poem
       const bookshelf = document.getElementById('bookshelf');
       const addNewBtn = document.querySelector('.add-new-book');
       const newBook = document.createElement('div');
@@ -766,25 +753,19 @@
       newBook.onclick = function() { showPoem(poemId); };
       bookshelf.insertBefore(newBook, addNewBtn);
       
-      // Hide the form and show the bookshelf
       hideAddPoemForm();
-      
-      // Show the new poem
       showPoem(poemId);
     }
 
     // Delete poem
     function deletePoem(id) {
       if (confirm('Are you sure you want to delete this poem?')) {
-        // Remove the poem container
         const poemElement = document.getElementById(id);
         if (poemElement) poemElement.remove();
         
-        // Remove the book from the bookshelf using the data attribute
         const bookToRemove = document.querySelector(`.book[data-poem-id="${id}"]`);
         if (bookToRemove) bookToRemove.remove();
         
-        // Go back to the bookshelf
         hidePoem();
       }
     }
@@ -794,7 +775,6 @@
       const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-cat-meow-119.mp3');
       audio.play();
       
-      // Create fish animation
       const cat = document.querySelector('.cat');
       const fish = document.createElement("div");
       fish.innerHTML = "🐟";
@@ -806,7 +786,6 @@
       fish.style.animation = "swim 2s linear forwards";
       document.body.appendChild(fish);
       
-      // Keyframes for fish animation
       const style = document.createElement('style');
       style.innerHTML = `
         @keyframes swim {
