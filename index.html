@@ -904,7 +904,8 @@
           // Show bookshelf by default
           showSection('bookshelf');
           
-          // Load any saved memories
+          // Load any saved poems and memories
+          loadPoems();
           loadMemories();
         }, 1000);
       } else {
@@ -1020,17 +1021,36 @@
       }
       
       const poemId = 'custom' + Date.now();
+      const poemData = {
+        id: poemId,
+        title: title,
+        text: text
+      };
       
+      // Save to localStorage
+      let poems = JSON.parse(localStorage.getItem('poems')) || [];
+      poems.push(poemData);
+      localStorage.setItem('poems', JSON.stringify(poems));
+      
+      // Add to display
+      addPoemToDisplay(poemData);
+      
+      hideAddPoemForm();
+      showPoem(poemId);
+    }
+
+    // Add poem to display
+    function addPoemToDisplay(poemData) {
       const poemContainer = document.createElement('div');
       poemContainer.className = 'poem-container';
-      poemContainer.id = poemId;
+      poemContainer.id = poemData.id;
       poemContainer.style.display = 'none';
       
       poemContainer.innerHTML = `
-        <h2>${title}</h2>
-        ${text.split('\n').map(line => `<p>${line}</p>`).join('')}
+        <h2>${poemData.title}</h2>
+        ${poemData.text.split('\n').map(line => `<p>${line}</p>`).join('')}
         <div class="button-group">
-          <button class="delete-button" onclick="deletePoem('${poemId}')">Delete Poem</button>
+          <button class="delete-button" onclick="deletePoem('${poemData.id}')">Delete Poem</button>
           <button class="back-button" onclick="hidePoem()">Back to Our Library</button>
         </div>
       `;
@@ -1041,18 +1061,32 @@
       const addNewBtn = document.querySelector('.add-new-book');
       const newBook = document.createElement('div');
       newBook.className = 'book';
-      newBook.textContent = title;
-      newBook.setAttribute('data-poem-id', poemId);
-      newBook.onclick = function() { showPoem(poemId); };
+      newBook.textContent = poemData.title;
+      newBook.setAttribute('data-poem-id', poemData.id);
+      newBook.onclick = function() { showPoem(poemData.id); };
       bookshelf.insertBefore(newBook, addNewBtn);
-      
-      hideAddPoemForm();
-      showPoem(poemId);
+    }
+
+    // Load saved poems
+    function loadPoems() {
+      const poems = JSON.parse(localStorage.getItem('poems')) || [];
+      poems.forEach(poem => {
+        // Check if poem already exists in DOM to avoid duplicates
+        if (!document.getElementById(poem.id)) {
+          addPoemToDisplay(poem);
+        }
+      });
     }
 
     // Delete poem
     function deletePoem(id) {
       if (confirm('Are you sure you want to delete this poem?')) {
+        // Remove from localStorage
+        let poems = JSON.parse(localStorage.getItem('poems')) || [];
+        poems = poems.filter(poem => poem.id !== id);
+        localStorage.setItem('poems', JSON.stringify(poems));
+        
+        // Remove from DOM
         const poemElement = document.getElementById(id);
         if (poemElement) poemElement.remove();
         
