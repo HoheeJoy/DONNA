@@ -1010,7 +1010,7 @@
       document.querySelector('.bookshelf').style.display = 'grid';
     }
 
-    // Save new poem
+    // Save new poem - THIS IS THE FIXED VERSION
     function savePoem() {
       const title = document.getElementById('poemTitle').value.trim();
       const text = document.getElementById('newPoemText').value.trim();
@@ -1027,7 +1027,7 @@
         text: text
       };
       
-      // Save to localStorage
+      // Save to localStorage - THE FIX WAS HERE
       let poems = JSON.parse(localStorage.getItem('poems')) || [];
       poems.push(poemData);
       localStorage.setItem('poems', JSON.stringify(poems));
